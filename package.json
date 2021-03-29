@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/timbwu/isa-webapp/issues"
   },
-  "homepage": "https://github.com/timbwu/isa-webapp#readme"
+  "homepage": "https://github.com/timbwu/isa-webapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
