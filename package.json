@@ -1,0 +1,23 @@
+{
+  "name": "isa-webapp",
+  "version": "1.0.0",
+  "description": "isa webapp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timbwu/isa-webapp.git"
+  },
+  "keywords": [
+    "node",
+    "threejs"
+  ],
+  "author": "timbwu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timbwu/isa-webapp/issues"
+  },
+  "homepage": "https://github.com/timbwu/isa-webapp#readme"
+}
