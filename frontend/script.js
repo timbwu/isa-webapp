@@ -25,18 +25,23 @@ window.addEventListener('resize', () => {
 })
 
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+// gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
 // Directional light
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-directionalLight.position.set(2, 2, - 1)
-gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001)
-gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001)
-gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001)
-gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001)
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7)
+directionalLight.position.set(3, 0, -2)
+// gui.add(directionalLight, 'intensity').min(0).max(1).step(0.001)
+// gui.add(directionalLight.position, 'x').min(- 5).max(5).step(0.001)
+// gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001)
+// gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(directionalLight)
+
+
+// 3D Helpers
+// const axesHelper = new THREE.AxesHelper( 5 );
+// scene.add( axesHelper );
 
 // const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
 // directionalLight.shadow.camera.near = 2
@@ -53,6 +58,7 @@ const earthColorTexture = textureLoader.load('/frontend/textures/earth/Albedo.jp
 const earthBumpTexture = textureLoader.load('/frontend/textures/earth/Bump.jpg')
 const earthCloudTexture = textureLoader.load('/frontend/textures/earth/Clouds.png')
 const earthLightsTexture = textureLoader.load('/frontend/textures/earth/Night_Lights.png')
+const earthNormalTexture = textureLoader.load('/frontend/textures/earth/Normal.png')
 
 const circleParticle = textureLoader.load('/frontend/textures/particles/circle.png')
 const flareParticle = textureLoader.load('/frontend/textures/particles/flare.png')
@@ -64,7 +70,7 @@ const earthMaterial = new THREE.MeshStandardMaterial( {map: earthColorTexture, b
 const earthSphere = new THREE.Mesh(earthGeo, earthMaterial)
 scene.add(earthSphere)
 
-const wireGeo = new THREE.SphereGeometry(1.015, 32, 32)
+const wireGeo = new THREE.SphereGeometry(1.01, 32, 32)
 const wireMaterial = new THREE.MeshStandardMaterial( {wireframe: true, opacity: 0.15, emissiveIntensity: 5, transparent: true} );
 const wireSphere = new THREE.Mesh(wireGeo, wireMaterial)
 scene.add(wireSphere)
@@ -84,6 +90,9 @@ const colors = new Float32Array(count * 3)
 for (let i = 0; i < count * 3; i++){
     positions[i] = (Math.random() - 0.5) * 10
 }
+
+const fog = new THREE.Fog('#000000', 0.75, 5)
+scene.fog = fog
 
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
 const particlesMaterial = new THREE.PointsMaterial()
@@ -134,6 +143,13 @@ cloudSphere.castShadow = true
     wireSphere.rotation.y = elapsedTime * 0.01
     wireSphere.rotation.x = elapsedTime * 0.01
     cloudSphere.rotation.y = elapsedTime * 0.01
+
+
+    // Sun Rotation
+    directionalLight.lookAt(earthSphere);
+    directionalLight.position.x = Math.sin(elapsedTime * 0.2) * 3
+    directionalLight.position.y = Math.sin(elapsedTime * 0.1) * 0.5
+    directionalLight.position.z = Math.cos((elapsedTime * 0.2) + Math.PI) * 2
     
     // Update controls
     controls.update()
