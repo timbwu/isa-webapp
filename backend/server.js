@@ -38,6 +38,10 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
 
+app.get("/documentation.html", (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/documentation/index.html'))
+})
+
 app.listen(3030, () => {
     console.log("Server on port 3030");
 })
