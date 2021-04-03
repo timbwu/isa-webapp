@@ -3,6 +3,16 @@ const mysql = require('mysql');
 const path = require('path');
 
 const conn = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    port: '3306',
+    password: '123456',
+    database: 'dongle'
+})
+
+conn.connect(err => {
+    if (err) throw err;
+    console.log("Connected to DB!");
 })
 
 const app = express();
@@ -13,6 +23,7 @@ app.use('/frontend/', express.static(path.join(__dirname, '../frontend')))
 app.use('/build/', express.static(path.join(__dirname, '../node_modules/three/build')))
 app.use('/jsm/', express.static(path.join(__dirname, '../node_modules/three/examples/jsm')))
 app.use('/dat.gui/', express.static(path.join(__dirname, '../node_modules/dat.gui')))
+
 // 3 POST
 // 2 DELETE
 // 2 PUT
@@ -47,5 +58,5 @@ app.get("/documentation.html", (req, res) => {
 })
 
 app.listen(3000, () => {
-    console.log("Server on port 3030");
+    console.log("Server on port 3000");
 })
