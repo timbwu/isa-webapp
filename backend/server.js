@@ -2,6 +2,9 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 
+const conn = mysql.createConnection({
+})
+
 const app = express();
 
 app.use(express.json());
@@ -22,13 +25,14 @@ app.get("/color", (req, res) => {
 app.get("/shape", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
-// threejs shapes? create/store/update
 
 app.get("/gallery", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
-// submit photos/thumbnail/3dshapes?
-// display/get/edit shape
+
+app.get("/admin", (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/admin.html'))
+})
 
 app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
