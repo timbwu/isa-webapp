@@ -2,18 +2,18 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 
-const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    port: '3306',
-    password: '123456',
-    database: 'dongle'
-})
+// const conn = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     port: '3306',
+//     password: '123456',
+//     database: 'dongle'
+// })
 
-conn.connect(err => {
-    if (err) throw err;
-    console.log("Connected to DB!");
-})
+// conn.connect(err => {
+//     if (err) throw err;
+//     console.log("Connected to DB!");
+// })
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.get("/gallery", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
 
-app.get("/admin", (req, res) => {
+app.get("/admin.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
