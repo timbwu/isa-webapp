@@ -51,8 +51,8 @@ scene.add(directionalLight)
 // Texture Loading
 const loadingManager = new THREE.LoadingManager()
 const textureLoader = new THREE.TextureLoader(loadingManager)
-loadingManager.onstart = () => {}
-loadingManager.onLoaded = () => {}
+loadingManager.onstart = () => { }
+loadingManager.onLoaded = () => { }
 
 const earthColorTexture = textureLoader.load('/frontend/textures/earth/Albedo.jpg')
 const earthBumpTexture = textureLoader.load('/frontend/textures/earth/Bump.jpg')
@@ -66,18 +66,18 @@ const flareParticle = textureLoader.load('/frontend/textures/particles/flare.png
 
 // Earth and Cloud Geo
 const earthGeo = new THREE.SphereGeometry(1, 32, 32)
-const earthMaterial = new THREE.MeshStandardMaterial( {map: earthColorTexture, bumpMap: earthBumpTexture, bumpScale: 0.05} );
+const earthMaterial = new THREE.MeshStandardMaterial({ map: earthColorTexture, bumpMap: earthBumpTexture, bumpScale: 0.05 });
 const earthSphere = new THREE.Mesh(earthGeo, earthMaterial)
 scene.add(earthSphere)
 
 const wireGeo = new THREE.SphereGeometry(1.01, 32, 32)
-const wireMaterial = new THREE.MeshStandardMaterial( {wireframe: true, opacity: 0.15, emissiveIntensity: 5, transparent: true} );
+const wireMaterial = new THREE.MeshStandardMaterial({ wireframe: true, opacity: 0.15, emissiveIntensity: 5, transparent: true });
 const wireSphere = new THREE.Mesh(wireGeo, wireMaterial)
 scene.add(wireSphere)
 
 
 const cloudGeo = new THREE.SphereGeometry(1.025, 32, 32)
-const cloudMaterial = new THREE.MeshStandardMaterial( {alphaMap: earthCloudTexture, map: earthCloudTexture, transparent: true})
+const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: earthCloudTexture, map: earthCloudTexture, transparent: true })
 const cloudSphere = new THREE.Mesh(cloudGeo, cloudMaterial)
 scene.add(cloudSphere)
 
@@ -87,7 +87,7 @@ const count = 3000
 const positions = new Float32Array(count * 3)
 const colors = new Float32Array(count * 3)
 
-for (let i = 0; i < count * 3; i++){
+for (let i = 0; i < count * 3; i++) {
     positions[i] = (Math.random() - 0.5) * 10
 }
 
@@ -118,7 +118,7 @@ controls.enablePan = false
 controls.enableZoom = false;
 
 // Renderer
- const renderer = new THREE.WebGLRenderer({
+const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: true
 })
@@ -133,10 +133,9 @@ earthSphere.receiveShadow = true
 cloudSphere.castShadow = true
 
 // Update Loop
- const clock = new THREE.Clock()
- const tick = () =>
- {
-     const elapsedTime = clock.getElapsedTime()
+const clock = new THREE.Clock()
+const tick = () => {
+    const elapsedTime = clock.getElapsedTime()
 
     // Update controls
     earthSphere.rotation.y = elapsedTime * -0.008
@@ -150,15 +149,15 @@ cloudSphere.castShadow = true
     directionalLight.position.x = Math.sin(elapsedTime * 0.2) * 3
     directionalLight.position.y = Math.sin(elapsedTime * 0.1) * 0.5
     directionalLight.position.z = Math.cos((elapsedTime * 0.2) + Math.PI) * 2
-    
+
     // Update controls
     controls.update()
 
     // Render
     renderer.render(scene, camera)
- 
+
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
- }
- 
- tick()
+}
+
+tick()
