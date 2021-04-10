@@ -21,7 +21,7 @@
                 <h1 class="align-middle text-5xl">pillarmen XOXO</h1>
             </span>
             <button id="adminBtn"
-                class="modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">
+                class="modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mr-5 border border-blue-500 hover:border-transparent rounded mr-2">
                 Admin
             </button>
             <div id="admin-modal"
@@ -84,7 +84,6 @@
                         </svg>
                         <span class="text-sm">(Esc)</span>
                     </div>
-
                     <div class="modal-content py-4 text-left px-6">
                         <!--Title-->
                         <div class="flex justify-between items-center pb-3">
@@ -100,32 +99,28 @@
                         </div>
 
                         <!--Body-->
-                        <form id="loginForm">
-                            <label class="font-semibold text-sm text-gray-600 pb-1 block"
-                                for="latitude">Latitude</label>
-                            <input id="latitude" type="number" name="latitude"
-                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2" min="-180" max="180" />
-                            <label class="font-semibold text-sm text-gray-600 pb-1 block"
-                                for="longitude">Longitude</label>
-                            <input id="longitude" type="number" name="longitude"
-                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2" min="-180" max="180" />
-                            <div>
-                                <input type="radio" id="dewey" name="contentType" value="emoji">
-                                <label for="dewey">Emoji</label>
-                                <input type="radio" id="dewey" name="contentType" value="pin">
-                                <label for="dewey">Heart</label>
-                                <input type="radio" id="dewey" name="contentType" value="message">
-                                <label for="dewey">Message</label>
-                            </div>
-
-                            <label class="font-semibold text-sm text-gray-600 mt-5 pb-1 block">Pin Content (Message):
-                            </label>
-                            <input id="latitude" type="text" name="latitude"
-                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-
-                            <input type="submit" name="submit"
-                                class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                        </form>
+                    <form id="addPinForm">
+                        <label class="font-semibold text-sm text-gray-600 pb-1 block" for="latitude">Latitude</label>
+                        <input id="latitude" type="number" name="latitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
+                            min="-180" max="180" step=any required />
+                        <label class="font-semibold text-sm text-gray-600 pb-1 block" for="longitude">Longitude</label>
+                        <input id="longitude" type="number" name="longitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
+                            min="-180" max="180" step=any required />
+                        <div>
+                            <input type="radio" name="contentType" value="0" required>
+                            <label for="dewey">Emoji</label>
+                            <input type="radio" name="contentType" value="1" required>
+                            <label for="dewey">Heart</label>
+                            <input type="radio" name="contentType" value="2" required>
+                            <label for="dewey">Message</label>
+                        </div>
+                    
+                        <label class="font-semibold text-sm text-gray-600 mt-5 pb-1 block">Pin Content (Message): </label>
+                        <input id="pinContent" type="text" name="pinContent" minlength="0" maxlength="144" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                    
+                        <input type="submit" name="submit"
+                            class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+                    </form>
                     </div>
                 </div>
             </div>
@@ -213,6 +208,35 @@
             })
         })
 
+
+        let pinform = document.getElementById("addPinForm")
+        pinform.addEventListener('submit', (e) => {
+            let data = {
+                lat: pinform.elements.latitude.value,
+                lon: pinform.elements.longitude.value,
+                contentType: pinform.elements.contentType.value,
+                pinContent: pinform.elements.pinContent.value,
+            }
+            e.preventDefault()
+            fetch('http://localhost:3000/newEmoji', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                if (res.status === 200) {
+
+                    return "ok";
+                } else {
+                    return "something went wrong";
+                }
+            })
+            if (document.body.classList.contains('modal-active')){
+                toggleModal()
+                updatePillars()
+            }
+        })
     </script>
 </body>
 
