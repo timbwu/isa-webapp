@@ -102,10 +102,10 @@
                     <form id="addPinForm">
                         <label class="font-semibold text-sm text-gray-600 pb-1 block" for="latitude">Latitude</label>
                         <input id="latitude" type="number" name="latitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
-                            min="-180" max="180" required />
+                            min="-180" max="180" step=any required />
                         <label class="font-semibold text-sm text-gray-600 pb-1 block" for="longitude">Longitude</label>
                         <input id="longitude" type="number" name="longitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
-                            min="-180" max="180" required />
+                            min="-180" max="180" step=any required />
                         <div>
                             <input type="radio" name="contentType" value="0" required>
                             <label for="dewey">Emoji</label>
@@ -116,7 +116,7 @@
                         </div>
                     
                         <label class="font-semibold text-sm text-gray-600 mt-5 pb-1 block">Pin Content (Message): </label>
-                        <input id="pinContent" type="text" name="pinContent" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+                        <input id="pinContent" type="text" name="pinContent" minlength="0" maxlength="144" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
                     
                         <input type="submit" name="submit"
                             class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
@@ -226,12 +226,16 @@
                 }
             }).then(res => {
                 if (res.status === 200) {
-                    alert("Pin Added")
+
+                    return "ok";
                 } else {
-                    alert("Something went wrong")
+                    return "something went wrong";
                 }
             })
-            console.log(data);
+            if (document.body.classList.contains('modal-active')){
+                toggleModal()
+                updatePillars()
+            }
         })
     </script>
 </body>
