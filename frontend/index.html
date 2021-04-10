@@ -164,7 +164,8 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()">
+                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()"
+                                required>
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -231,8 +232,8 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="deleteSelect" name="pinID" class="pinIDSelect"
-                                onchange="selectOnChangeDelete()">
+                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()"
+                                required>
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
