@@ -15,7 +15,7 @@
 
 <body>
     <canvas class="webgl"></canvas>
-    <div id="title-container" class="container fixed top-0 left-0 z-10 h-max w-max">
+    <div id="title-container" class="container fixed top-0 left-0 z-10 h-100 w-100">
         <div class="w-max bg-white align-bottom py-3 rounded-br-lg">
             <span class="mx-5 inline-block align-middle">
                 <h1 class="align-middle text-5xl">pillar postcards</h1>
@@ -258,7 +258,7 @@
         </div>
     </div>
     <div id="button-container"
-        class="bg-white absolute bottom-0 right-0 h-16 w-3/12 z-10 mx-auto flex align-center content-evenly rounded-tl-lg">
+        class="bg-white absolute bottom-0 right-0 h-16 w-3/12 sm:w-6/12 z-10 mx-auto flex align-center content-evenly rounded-tl-lg">
         <button id="addBtn"
             class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
             Add a Pin
@@ -480,6 +480,7 @@
             }).then(function (data) {
                 data.forEach(e1 => {
                     document.querySelectorAll(".pinIDSelect").forEach(e2 => {
+                        e2.innerHTML = `<option value="" disabled selected>Select an Option</option>`;
                         e2.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
                     });
                 });
