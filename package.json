@@ -4,7 +4,7 @@
   "description": "isa webapp",
   "main": "./backend/server.js",
   "scripts": {
-    "start": "node ./backend/server.js",
+    "start": "nodemon ./backend/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,10 +24,11 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dat.gui": "^0.7.7",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mariadb": "^2.5.3",
     "mysql": "^2.18.1",
-    "three": "^0.126.1",
-    "three.interaction": "^0.2.3"
+    "nodemon": "^2.0.7",
+    "three": "^0.126.1"
   }
 }
