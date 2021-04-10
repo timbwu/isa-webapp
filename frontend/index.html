@@ -99,28 +99,34 @@
                         </div>
 
                         <!--Body-->
-                    <form id="addPinForm">
-                        <label class="font-semibold text-sm text-gray-600 pb-1 block" for="latitude">Latitude</label>
-                        <input id="latitude" type="number" name="latitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
-                            min="-180" max="180" step=any required />
-                        <label class="font-semibold text-sm text-gray-600 pb-1 block" for="longitude">Longitude</label>
-                        <input id="longitude" type="number" name="longitude" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2"
-                            min="-180" max="180" step=any required />
-                        <div>
-                            <input type="radio" name="contentType" value="0" required>
-                            <label for="dewey">Emoji</label>
-                            <input type="radio" name="contentType" value="1" required>
-                            <label for="dewey">Heart</label>
-                            <input type="radio" name="contentType" value="2" required>
-                            <label for="dewey">Message</label>
-                        </div>
-                    
-                        <label class="font-semibold text-sm text-gray-600 mt-5 pb-1 block">Pin Content (Message): </label>
-                        <input id="pinContent" type="text" name="pinContent" minlength="0" maxlength="144" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-                    
-                        <input type="submit" name="submit"
-                            class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                    </form>
+                        <form id="addPinForm">
+                            <label class="font-semibold text-sm text-gray-600 pb-1 block"
+                                for="latitude">Latitude</label>
+                            <input id="latitude" type="number" name="latitude"
+                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2" min="-180" max="180"
+                                step=any required />
+                            <label class="font-semibold text-sm text-gray-600 pb-1 block"
+                                for="longitude">Longitude</label>
+                            <input id="longitude" type="number" name="longitude"
+                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-1/2" min="-180" max="180"
+                                step=any required />
+                            <div>
+                                <input type="radio" name="contentType" value="0" required>
+                                <label for="dewey">Emoji</label>
+                                <input type="radio" name="contentType" value="1" required>
+                                <label for="dewey">Heart</label>
+                                <input type="radio" name="contentType" value="2" required>
+                                <label for="dewey">Message</label>
+                            </div>
+
+                            <label class="font-semibold text-sm text-gray-600 mt-5 pb-1 block">Pin Content (Message):
+                            </label>
+                            <input id="pinContent" type="text" name="pinContent" minlength="0" maxlength="144"
+                                class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+
+                            <input type="submit" name="submit"
+                                class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -218,7 +224,7 @@
                 pinContent: pinform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('http://localhost:3000/newEmoji', {
+            fetch('https://pillar.timbwu.com/newEmoji', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -232,7 +238,7 @@
                     return "something went wrong";
                 }
             })
-            if (document.body.classList.contains('modal-active')){
+            if (document.body.classList.contains('modal-active')) {
                 toggleModal()
                 updatePillars()
             }
