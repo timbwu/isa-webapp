@@ -4,7 +4,6 @@ import * as dat from '/dat.gui/build/dat.gui.module.js'
 
 
 // THREE Setup
-const gui = new dat.GUI()
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
