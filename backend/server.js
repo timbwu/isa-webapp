@@ -30,7 +30,33 @@ db.promise = (sql) => {
 
 // Middleware
 const RequestLogger = (req, res, next) => {
-    console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
+    res.on("finish", () => {
+        console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
+        switch (req.method) {
+            case 'GET':
+                db.query("UPDATE requests SET gets = gets + 1", (err, result) => {
+                    if (err) throw err;
+                })
+                break;
+            case 'POST':
+                db.query("UPDATE requests SET posts = posts + 1", (err, result) => {
+                    if (err) throw err;
+                })
+                break;
+            case 'PUT':
+                db.query("UPDATE requests SET puts = puts + 1", (err, result) => {
+                    if (err) throw err;
+                })
+                break;
+            case 'DELETE':
+                db.query("UPDATE requests SET deletes = deletes + 1", (err, result) => {
+                    if (err) throw err;
+                })
+                break;
+            default:
+                console.log("none")
+        }
+    })
     next();
 }
 
@@ -66,36 +92,21 @@ app.get("/gallery", (req, res) => {
 })
 
 app.get("/admin.html", (req, res) => {
-    // Create pin table
-    const sql = "CREATE TABLE IF NOT EXISTS pin (id int AUTO_INCREMENT PRIMARY KEY, type int, contentID int, lat float, lon float) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-    })
-
+    // for lightsail
     const sql1 = "CREATE TABLE IF NOT EXISTS pinContent (id int AUTO_INCREMENT PRIMARY KEY, content TEXT CHARSET utf8mb4) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
+    db.query(sql1, (err, result) => {
+        if (err) throw err;
+    })
+
+    res.sendFile(path.join(__dirname, '../frontend/admin.html'))
+})
+
+app.post("/admin.html", (req, res) => {
+    const sql = "SELECT * FROM requests"
     db.query(sql, (err, result) => {
         if (err) throw err;
+        res.status(200).send(result)
     })
-
-    // Create requests table
-    const sql2 = "CREATE TABLE IF NOT EXISTS requests (gets int, posts int, puts int, deletes int)";
-    db.query(sql2, (err, result) => {
-        if (err) throw err;
-    })
-
-    // Create user table
-    const sql3 = "CREATE TABLE IF NOT EXISTS user (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255))";
-    db.query(sql3, (err, result) => {
-        if (err) throw err;
-    })
-
-    // Get all requests
-    const sql4 = "SELECT * FROM requests"
-    db.query(sql4, (err, result) => {
-        if (err) throw err;
-    })
-    // console.log(req.body)
-    res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
 app.post("/login", async (req, res) => {
