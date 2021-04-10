@@ -16,9 +16,9 @@
 <body>
     <canvas class="webgl"></canvas>
     <div id="title-container" class="container fixed top-0 left-0 z-10 h-100 w-100">
-        <div class="w-max bg-white align-bottom py-3 rounded-br-lg">
+        <div class="md:w-max sm:w-7/12 bg-white align-bottom py-3 rounded-br-lg">
             <span class="mx-5 inline-block align-middle">
-                <h1 class="align-middle text-5xl">pillar postcards</h1>
+                <h1 class="align-middle md:text-5xl sm:text-2xl">pillar postcards</h1>
             </span>
             <button id="adminBtn"
                 class="modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mr-5 border border-blue-500 hover:border-transparent rounded mr-2">
@@ -259,7 +259,7 @@
         </div>
     </div>
     <div id="button-container"
-        class="bg-white absolute bottom-0 right-0 h-16 w-3/12 sm:w-6/12 z-10 mx-auto flex align-center content-evenly rounded-tl-lg">
+        class="bg-white absolute bottom-0 right-0 h-16 md:w-3/12 sm:w-8/12 z-10 mx-auto flex align-center content-evenly rounded-tl-lg">
         <button id="addBtn"
             class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
             Add a Pin
@@ -482,12 +482,12 @@
                     return "something went wrong";
                 }
             }).then(function (data) {
-                document.querySelectorAll(".pinIDSelect").forEach(list => {
-                    list.innerHTML = ""
+                document.querySelectorAll(".pinIDSelect").forEach(e2 => {
+                    e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
                     data.forEach(e1 => {
-                        list.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
-                    })
-                })
+                        e2.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
+                    });
+                });
             });
         }
 
@@ -520,8 +520,8 @@
             let data = {
                 id: $("#editSelect").find(":selected").val()
             }
-            // fetch('https://pillar.timbwu.com/api/v1/getPin', {
-            fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
+            fetch('https://pillar.timbwu.com/api/v1/getPin', {
+                // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
