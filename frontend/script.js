@@ -89,7 +89,7 @@ const earthGeo = new THREE.SphereGeometry(1, 32, 32)
 const earthMaterial = new THREE.MeshStandardMaterial({ map: earthColorTexture, bumpMap: earthBumpTexture, bumpScale: 0.05 });
 let earthSphere = new THREE.Mesh(earthGeo, earthMaterial)
 earthGroup.add(earthSphere)
-earthSphere.rotation.y = Math.PI 
+earthSphere.rotation.y = Math.PI
 
 const wireGeo = new THREE.SphereGeometry(1.01, 32, 32)
 const wireMaterial = new THREE.MeshStandardMaterial({ wireframe: true, opacity: 0.15, emissiveIntensity: 5, transparent: true });
@@ -195,24 +195,24 @@ const tick = () => {
 
 tick()
 
-window.updatePillars = function updatePillars(){
-    fetch('http://localhost:3000/pins', {
+window.updatePillars = function updatePillars() {
+    fetch('https://pillar.timbwu.com/pins', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(res => {
         if (res.status === 200) {
-            
+
             return res.json();
         } else {
             alert("Something went wrong")
         }
-    }).then(function(data){
+    }).then(function (data) {
         pinEndObjects.forEach(element => scene.remove(element))
         pinLines.forEach(element => scene.remove(element))
 
-        while(pinEndObjects.length > 0) {
+        while (pinEndObjects.length > 0) {
             console.log(pinEndObjects);
             pinEndObjects.pop()
             pinLines.pop()
@@ -222,7 +222,7 @@ window.updatePillars = function updatePillars(){
     });
 }
 
-function createPillar(lat, lon , type, content){
+function createPillar(lat, lon, type, content) {
     var latitude = Math.PI * lat / 180;
     var longitude = Math.PI * lon / 180
 
@@ -231,18 +231,18 @@ function createPillar(lat, lon , type, content){
     const material = new THREE.LineBasicMaterial({
         color: 0xffffff,
     });
-    
+
 
     const points = [];
     points.push(new THREE.Vector3(
         1.01 * Math.sin(latitude) * Math.cos(longitude),
         1.01 * Math.cos(latitude),
-        1.01 * Math.sin(latitude) * Math.sin(longitude),  
+        1.01 * Math.sin(latitude) * Math.sin(longitude),
     ))
     points.push(new THREE.Vector3(
         1.2 * Math.sin(latitude) * Math.cos(longitude),
         1.2 * Math.cos(latitude),
-        1.2 * Math.sin(latitude) * Math.sin(longitude),  
+        1.2 * Math.sin(latitude) * Math.sin(longitude),
     ))
 
     const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
@@ -250,47 +250,47 @@ function createPillar(lat, lon , type, content){
     pinLines.push(line);
     scene.add(line);
 
-    if (type == 0){
+    if (type == 0) {
         let emoji = emojis[Math.floor(Math.random() * emojis.length)];
         let geometry = new THREE.PlaneGeometry(0.05, 0.05)
-        const material = new THREE.MeshBasicMaterial({map: emoji, side: THREE.DoubleSide, transparent: true})
-        const planeMesh = new THREE.Mesh(geometry,material);
+        const material = new THREE.MeshBasicMaterial({ map: emoji, side: THREE.DoubleSide, transparent: true })
+        const planeMesh = new THREE.Mesh(geometry, material);
         planeMesh.position.set(
             1.21 * Math.sin(latitude) * Math.cos(longitude),
             1.21 * Math.cos(latitude),
-            1.21 * Math.sin(latitude) * Math.sin(longitude),  
+            1.21 * Math.sin(latitude) * Math.sin(longitude),
         )
         scene.add(planeMesh);
         pinEndObjects.push(planeMesh);
-    } else if (type == 1){
+    } else if (type == 1) {
         let geometry = new THREE.PlaneGeometry(0.05, 0.05)
-        const material = new THREE.MeshBasicMaterial({map: heart, side: THREE.DoubleSide, transparent: true})
-        const planeMesh = new THREE.Mesh(geometry,material);
+        const material = new THREE.MeshBasicMaterial({ map: heart, side: THREE.DoubleSide, transparent: true })
+        const planeMesh = new THREE.Mesh(geometry, material);
         planeMesh.position.set(
             1.21 * Math.sin(latitude) * Math.cos(longitude),
             1.21 * Math.cos(latitude),
-            1.21 * Math.sin(latitude) * Math.sin(longitude),  
+            1.21 * Math.sin(latitude) * Math.sin(longitude),
         )
         scene.add(planeMesh);
         pinEndObjects.push(planeMesh);
     } else {
-        fontLoader.load( '/frontend/fonts/helvetiker_regular.typeface.json', function ( font ) {
+        fontLoader.load('/frontend/fonts/helvetiker_regular.typeface.json', function (font) {
 
             const geometry = new THREE.TextGeometry(content, {
                 font: font,
                 size: 0.02,
                 height: 0.001,
-            } );
-            var textMat = new THREE.MeshBasicMaterial( { color: 0xffffff } )
+            });
+            var textMat = new THREE.MeshBasicMaterial({ color: 0xffffff })
             var textMesh = new THREE.Mesh(geometry, textMat);
-    
+
             textMesh.position.set(
                 1.21 * Math.sin(latitude) * Math.cos(longitude),
                 1.21 * Math.cos(latitude),
-                1.21 * Math.sin(latitude) * Math.sin(longitude),  
+                1.21 * Math.sin(latitude) * Math.sin(longitude),
             )
             scene.add(textMesh)
             pinEndObjects.push(textMesh);
         });
-    } 
+    }
 }
