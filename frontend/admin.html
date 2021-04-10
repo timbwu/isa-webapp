@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
         crossorigin="anonymous" />
-    <link rel="stylesheet" href="/frontend/css/admin.css">
 </head>
 
 <body onload="getRequestCount()">
@@ -86,11 +85,11 @@
         function getRequestCount() {
             const xttp = new XMLHttpRequest();
             xttp.open("POST", "https://pillar.timbwu.com/api/v1/admin?apikey=SuperSecretKey", true)
+            // xttp.open("POST", "http://localhost:3000/api/v1/admin?apikey=SuperSecretKey", true)
             xttp.responseType = "json";
             xttp.onload = function () {
                 if (xttp.readyState === xttp.DONE && xttp.status === 200) {
                     let result = xttp.response
-                    console.log(result)
                     gets.innerText = result[0].gets
                     posts.innerText = result[0].posts
                     puts.innerText = result[0].puts

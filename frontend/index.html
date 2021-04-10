@@ -157,14 +157,15 @@
                                     </path>
                                 </svg>
                             </div>
-                        </div>               
+                        </div>
 
                         <!--Body-->
                         <form id="editPinForm">
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()">
+                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()"
+                                required>
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -231,7 +232,8 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()">
+                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()"
+                                required>
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -265,7 +267,7 @@
         </button>
 
         <button id="editBtn"
-        class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
+            class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
             Edit a Pin
         </button>
 
@@ -290,7 +292,7 @@
 
         let emojiBtn = document.querySelector("#addBtn")
         emojiBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')){
+            if (document.body.classList.contains('modal-active')) {
                 toggleModal()
             }
             event.preventDefault()
@@ -300,7 +302,7 @@
 
         let editBtn = document.querySelector("#editBtn")
         editBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')){
+            if (document.body.classList.contains('modal-active')) {
                 toggleModal()
             }
             event.preventDefault()
@@ -311,7 +313,7 @@
 
         let deleteBtn = document.querySelector("#deleteBtn")
         deleteBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')){
+            if (document.body.classList.contains('modal-active')) {
                 toggleModal()
             }
             event.preventDefault()
@@ -386,6 +388,7 @@
             }
             e.preventDefault()
             fetch('https://pillar.timbwu.com/api/v1/newPin?apikey=SuperSecretKey', {
+                // fetch('http://localhost:3000/api/v1/newPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -414,7 +417,8 @@
                 pinContent: editform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/editPin', {
+            fetch('https://pillar.timbwu.com/api/v1/editPin?apikey=SuperSecretKey', {
+                // fetch('http://localhost:3000/api/v1/editPin?apikey=SuperSecretKey', {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -442,9 +446,9 @@
                 lon: deleteform.elements.longitude.value,
                 pinContent: deleteform.elements.pinContent.value,
             }
-            console.log("HERE")
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/deletePin', {
+            fetch('https://pillar.timbwu.com/api/v1/deletePin?apikey=SuperSecretKey', {
+                // fetch('http://localhost:3000/api/v1/deletePin?apikey=SuperSecretKey', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
                 headers: {
@@ -464,37 +468,36 @@
             }
         })
 
-        function populateSelects(){
+        function populateSelects() {
             fetch('https://pillar.timbwu.com/api/v1/pinIDs', {
+                // fetch('http://localhost:3000/api/v1/pinIDs?apikey=SuperSecretKey', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
                 if (res.status === 200) {
- 
+
                     return res.json();
                 } else {
                     return "something went wrong";
                 }
             }).then(function (data) {
                 document.querySelectorAll(".pinIDSelect").forEach(e2 => {
-                        e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
-                });
-
-                data.forEach(e1 => {
-                    document.querySelectorAll(".pinIDSelect").forEach(e2 => {
+                    e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
+                    data.forEach(e1 => {
                         e2.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
                     });
                 });
             });
         }
 
-        function selectOnChangeDelete(){
+        function selectOnChangeDelete() {
             let data = {
                 id: $("#deleteSelect").find(":selected").val()
             }
             fetch('https://pillar.timbwu.com/api/v1/getPin', {
+                // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -514,11 +517,12 @@
             });
         }
 
-        function selectOnChangeEdit(){
+        function selectOnChangeEdit() {
             let data = {
                 id: $("#editSelect").find(":selected").val()
             }
             fetch('https://pillar.timbwu.com/api/v1/getPin', {
+                // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -536,7 +540,7 @@
                 editform.elements.pinContent.value = data[0].content
             });
         }
-        
+
     </script>
 </body>
 

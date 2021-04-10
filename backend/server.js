@@ -11,8 +11,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     port: '3306',
-    password: '',
-    database: 'local_isa'
+    password: '123456',
+    database: 'dongle'
 })
 
 db.connect(err => {
@@ -42,16 +42,6 @@ const RequestLogger = (req, res, next) => {
                     break;
                 case 'POST':
                     db.query("UPDATE requests SET posts = posts + 1", (err, result) => {
-                        if (err) throw err;
-                    })
-                    break;
-                case 'PUT':
-                    db.query("UPDATE requests SET puts = puts + 1", (err, result) => {
-                        if (err) throw err;
-                    })
-                    break;
-                case 'DELETE':
-                    db.query("UPDATE requests SET deletes = deletes + 1", (err, result) => {
                         if (err) throw err;
                     })
                     break;
@@ -129,6 +119,7 @@ app.post(endPointRoot + "/login", async (req, res) => {
             }
         }).catch((err) => {
             console.log(err);
+            res.status(401).send()
         })
 })
 
@@ -178,31 +169,60 @@ app.post(endPointRoot + '/newPin', function (req, res) {
                 throw '401 Wrong api key!'
             }
         }).catch((err) => {
+            console.log(err)
             res.status(401).send()
         })
 })
 
-app.put(endPointRoot + '/editPin', function(req, res){
-    const id = req.body.id;
-    const lat = req.body.lat
-    const lon = req.body.lon
-    const contentType = req.body.contentType
-    const pinContent = req.body.pinContent
-    const sql = `UPDATE pin SET type = ${contentType}, content = "${pinContent}", lat = ${lat}, lon = ${lon} WHERE id = ${id}`;
-    db.query(sql, (err, result) => {
-        if (err) throw err
-    })
+app.put(endPointRoot + '/editPin', function (req, res) {
+    db.promise("SELECT * FROM apikey WHERE apikey1='" + req.query.apikey + "'")
+        .then((result) => {
+            if (result.length > 0) {
+                const id = req.body.id;
+                const lat = req.body.lat
+                const lon = req.body.lon
+                const contentType = req.body.contentType
+                const pinContent = req.body.pinContent
+                const sql = `UPDATE pin SET type = ${contentType}, content = "${pinContent}", lat = ${lat}, lon = ${lon} WHERE id = ${id}`;
+                db.query(sql, (err, result) => {
+                    if (err) throw err
+                    res.status(200).send()
+                })
+                db.query("UPDATE requests SET puts = puts + 1", (err, result) => {
+                    if (err) throw err;
+                })
+            } else {
+                throw '401 Wrong api key!'
+            }
+        }).catch((err) => {
+            console.log(err)
+            res.status(401).send()
+        })
 })
 
-app.delete(endPointRoot + '/deletePin', function(req, res) {
-    const id = req.body.id;
-    const sql = `DELETE FROM pin WHERE id = ${id}`;
-    db.query(sql, (err, result) => {
-        if (err) throw err
-    })
+app.delete(endPointRoot + '/deletePin', function (req, res) {
+    db.promise("SELECT * FROM apikey WHERE apikey1='" + req.query.apikey + "'")
+        .then((result) => {
+            if (result.length > 0) {
+                const id = req.body.id;
+                const sql = `DELETE FROM pin WHERE id = ${id}`;
+                db.query(sql, (err, result) => {
+                    if (err) throw err
+                    res.status(200).send()
+                })
+                db.query("UPDATE requests SET deletes = deletes + 1", (err, result) => {
+                    if (err) throw err;
+                })
+            } else {
+                throw '401 Wrong api key!'
+            }
+        }).catch((err) => {
+            console.log(err)
+            res.status(401).send()
+        })
 });
 
-app.get(endPointRoot + '/pinIDs', function(req, res){
+app.get(endPointRoot + '/pinIDs', function (req, res) {
     db.promise(`SELECT id FROM pin`)
         .then((result) => {
             console.log(JSON.stringify(result));
@@ -213,17 +233,17 @@ app.get(endPointRoot + '/pinIDs', function(req, res){
         })
 })
 
-app.post(endPointRoot + '/getPin', function(req, res){
+app.post(endPointRoot + '/getPin', function (req, res) {
     const id = req.body.id;
     const sql = `SELECT * FROM pin WHERE id = ${id}`;
     db.promise(sql)
-    .then((result) => {
-        console.log(JSON.stringify(result));
-        res.setHeader('Content-Type', 'application/json');
-        res.status(200).send(JSON.stringify(result));
-    }).catch((err) => {
-        console.log(err);
-    })
+        .then((result) => {
+            console.log(JSON.stringify(result));
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).send(JSON.stringify(result));
+        }).catch((err) => {
+            console.log(err);
+        })
 })
 
 app.listen(PORT, () => {
