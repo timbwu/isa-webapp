@@ -1,14 +1,16 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const bcrypt = require('bcrypt');
 const PORT = process.env.PORT || 3000;
+const endPointRoot = "/API/v1"
 const app = express();
 
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     port: '3306',
-    password: '',
+    password: '123456',
     database: 'local_isa'
 })
 
@@ -17,6 +19,15 @@ db.connect(err => {
     console.log("Connected to DB!");
 })
 
+db.promise = (sql) => {
+    return new Promise((resolve, reject) => {
+        db.query(sql, (err, result) => {
+            if (err) { reject(new Error()); }
+            else { resolve(result); }
+        })
+    })
+}
+
 // Middleware
 const RequestLogger = (req, res, next) => {
     console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
@@ -24,6 +35,12 @@ const RequestLogger = (req, res, next) => {
 }
 
 app.use(RequestLogger)
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With')
+    next();
+})
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/frontend/', express.static(path.join(__dirname, '../frontend')))
@@ -81,22 +98,27 @@ app.get("/admin.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
-app.post("/login", (req, res) => {
+app.post("/login", async (req, res) => {
     let email = req.body.email
     let password = req.body.password
-    if (email && password) {
-        db.query("SELECT * FROM user WHERE email = ? AND password = ?", [email, password], (err, result) => {
-            if (result.length > 0) {
-                res.status(200).send()
-            } else {
+    db.promise(`SELECT * FROM user WHERE email= '${email}'`)
+        .then((result) => {
+            if (result.length == 0) {
                 res.status(401).send()
+                throw "Login failed, invalid email or password!"
+            } else {
+                bcrypt.compare(password, result[0].password)
+                    .then((result) => {
+                        if (result) {
+                            res.status(200).send()
+                        } else {
+                            res.status(401).send()
+                        }
+                    })
             }
-            res.end()
+        }).catch((err) => {
+            console.log(err);
         })
-    } else {
-        res.status(401).send()
-        res.end()
-    }
 })
 
 app.get("/home", (req, res) => {
