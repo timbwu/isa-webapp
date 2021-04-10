@@ -91,7 +91,7 @@ for (let i = 0; i < count * 3; i++) {
     positions[i] = (Math.random() - 0.5) * 10
 }
 
-const fog = new THREE.Fog('#000000', 0.75, 5)
+const fog = new THREE.Fog('#000000', 0.60, 5)
 scene.fog = fog
 
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
