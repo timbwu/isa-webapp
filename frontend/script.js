@@ -25,7 +25,7 @@ window.addEventListener('resize', () => {
 })
 
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.4)
+const ambientLight = new THREE.AmbientLight(0xffffff, 1)
 // gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 

@@ -8,7 +8,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     port: '3306',
-    password: '123456',
+    password: '',
     database: 'local_isa'
 })
 
@@ -50,7 +50,12 @@ app.get("/gallery", (req, res) => {
 
 app.get("/admin.html", (req, res) => {
     // Create pin table
-    const sql = "CREATE TABLE IF NOT EXISTS pins (pin_id int AUTO_INCREMENT PRIMARY KEY, message varchar(255), emoji varchar(255), heart varchar(255)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
+    const sql = "CREATE TABLE IF NOT EXISTS pin (id int AUTO_INCREMENT PRIMARY KEY, type int, contentID int, lat float, lon float) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
+    db.query(sql, (err, result) => {
+        if (err) throw err;
+    })
+
+    const sql1 = "CREATE TABLE IF NOT EXISTS pinContent (id int AUTO_INCREMENT PRIMARY KEY, content TEXT CHARSET utf8mb4) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
     db.query(sql, (err, result) => {
         if (err) throw err;
     })

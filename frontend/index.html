@@ -25,6 +25,7 @@
                 Admin
             </button>
             <div
+                id="admin-modal"
                 class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
                 <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
                 <div
@@ -94,10 +95,12 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="module" src="/frontend/script.js"></script>
     <script tpye="text/javascript">
-        let openmodal = document.querySelectorAll('.modal-open')
+        let modalToToggle = ""
+        let openmodal = document.querySelectorAll('#adminBtn')
         for (let i = 0; i < openmodal.length; i++) {
             openmodal[i].addEventListener('click', function (event) {
                 event.preventDefault()
+                modalToToggle = "#admin-modal"
                 toggleModal()
             })
         }
@@ -125,7 +128,7 @@
 
         function toggleModal() {
             const body = document.querySelector('body')
-            const modal = document.querySelector('.modal')
+            const modal = document.querySelector(modalToToggle)
             modal.classList.toggle('opacity-0')
             modal.classList.toggle('pointer-events-none')
             body.classList.toggle('modal-active')
