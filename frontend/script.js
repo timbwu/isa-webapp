@@ -217,12 +217,12 @@ window.updatePillars = function updatePillars() {
             pinEndObjects.pop()
             pinLines.pop()
         }
-        data.forEach(element => createPillar(element.lat, element.lon, element.type, element.content));
+        data.forEach(element => createPillar(element.id, element.lat, element.lon, element.type, element.content));
 
     });
 }
 
-function createPillar(lat, lon, type, content) {
+function createPillar(id, lat, lon, type, content) {
     var latitude = Math.PI * lat / 180;
     var longitude = Math.PI * lon / 180
 
@@ -260,6 +260,7 @@ function createPillar(lat, lon, type, content) {
             1.21 * Math.cos(latitude),
             1.21 * Math.sin(latitude) * Math.sin(longitude),
         )
+        planeMesh.name = id.toString()
         scene.add(planeMesh);
         pinEndObjects.push(planeMesh);
     } else if (type == 1) {
@@ -271,6 +272,7 @@ function createPillar(lat, lon, type, content) {
             1.21 * Math.cos(latitude),
             1.21 * Math.sin(latitude) * Math.sin(longitude),
         )
+        planeMesh.name = id.toString()
         scene.add(planeMesh);
         pinEndObjects.push(planeMesh);
     } else {
@@ -289,6 +291,7 @@ function createPillar(lat, lon, type, content) {
                 1.21 * Math.cos(latitude),
                 1.21 * Math.sin(latitude) * Math.sin(longitude),
             )
+            textMesh.name = id.toString()
             scene.add(textMesh)
             pinEndObjects.push(textMesh);
         });

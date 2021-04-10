@@ -10,8 +10,8 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     port: '3306',
-    password: '123456',
-    database: 'dongle'
+    password: '',
+    database: 'local_isa'
 })
 
 db.connect(err => {
@@ -151,7 +151,7 @@ app.get("/documentation.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/documentation/index.html'))
 })
 
-app.post('/newEmoji', function (req, res) {
+app.post('/newPin', function (req, res) {
     const lat = req.body.lat
     const lon = req.body.lon
     const contentType = req.body.contentType
@@ -159,6 +159,50 @@ app.post('/newEmoji', function (req, res) {
     const sql = `INSERT INTO pin (type, content, lat, lon) VALUES (${contentType}, "${pinContent}", ${lat}, ${lon})`;
     db.query(sql, (err, result) => {
         if (err) throw err
+    })
+})
+
+app.put('/editPin', function(req, res){
+    const id = req.body.id;
+    const lat = req.body.lat
+    const lon = req.body.lon
+    const contentType = req.body.contentType
+    const pinContent = req.body.pinContent
+    const sql = `UPDATE pin SET type = ${contentType}, content = "${pinContent}", lat = ${lat}, lon = ${lon} WHERE id = ${id}`;
+    db.query(sql, (err, result) => {
+        if (err) throw err
+    })
+})
+
+app.delete('/deletePin', function(req, res) {
+    const id = req.body.id;
+    const sql = `DELETE FROM pin WHERE id = ${id}`;
+    db.query(sql, (err, result) => {
+        if (err) throw err
+    })
+});
+
+app.get('/pinIDs', function(req, res){
+    db.promise(`SELECT id FROM pin`)
+        .then((result) => {
+            console.log(JSON.stringify(result));
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).send(JSON.stringify(result));
+        }).catch((err) => {
+            console.log(err);
+        })
+})
+
+app.post('/getPin', function(req, res){
+    const id = req.body.id;
+    const sql = `SELECT * FROM pin WHERE id = ${id}`;
+    db.promise(sql)
+    .then((result) => {
+        console.log(JSON.stringify(result));
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).send(JSON.stringify(result));
+    }).catch((err) => {
+        console.log(err);
     })
 })
 

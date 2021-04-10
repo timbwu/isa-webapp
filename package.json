@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "mariadb": "^2.5.3",
     "mysql": "^2.18.1",
-    "three": "^0.126.1"
+    "three": "^0.126.1",
+    "three.interaction": "^0.2.3"
   }
 }
