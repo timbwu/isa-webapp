@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     port: '3306',
-    password: '123456',
+    password: '',
     database: 'local_isa'
 })
 
@@ -67,12 +67,7 @@ app.get("/gallery", (req, res) => {
 
 app.get("/admin.html", (req, res) => {
     // Create pin table
-    const sql = "CREATE TABLE IF NOT EXISTS pin (id int AUTO_INCREMENT PRIMARY KEY, type int, contentID int, lat float, lon float) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
-    db.query(sql, (err, result) => {
-        if (err) throw err;
-    })
-
-    const sql1 = "CREATE TABLE IF NOT EXISTS pinContent (id int AUTO_INCREMENT PRIMARY KEY, content TEXT CHARSET utf8mb4) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
+    const sql = "CREATE TABLE IF NOT EXISTS pin (id int AUTO_INCREMENT PRIMARY KEY, type int, content TEXT CHARSET utf8mb4, lat float, lon float) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
     db.query(sql, (err, result) => {
         if (err) throw err;
     })
@@ -129,8 +124,30 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
 
+app.get('/pins', (req, res) => {
+    db.promise(`SELECT * FROM pin`)
+    .then((result) => {
+        console.log(JSON.stringify(result));
+        res.setHeader('Content-Type', 'application/json');
+       res.status(200).send(JSON.stringify(result));
+    }).catch((err) => {
+        console.log(err);
+    })
+})
+
 app.get("/documentation.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/documentation/index.html'))
+})
+
+app.post('/newEmoji', function (req, res) {
+    const lat = req.body.lat
+    const lon = req.body.lon
+    const contentType = req.body.contentType
+    const pinContent = req.body.pinContent
+    const sql = `INSERT INTO pin (type, content, lat, lon) VALUES (${contentType}, "${pinContent}", ${lat}, ${lon})`;
+    db.query(sql, (err, result) => {
+        if (err) throw err
+    })
 })
 
 app.listen(PORT, () => {
