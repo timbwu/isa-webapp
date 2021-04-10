@@ -72,16 +72,25 @@ app.get("/admin.html", (req, res) => {
     db.query(sql4, (err, result) => {
         if (err) throw err;
     })
-    console.log(req.body)
+    // console.log(req.body)
     res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
 app.post("/login", (req, res) => {
-    if (req.body.email === "test@test" && req.body.password === "123") {
-        res.redirect("/admin.html")
-        res.status(200).send()
+    let email = req.body.email
+    let password = req.body.password
+    if (email && password) {
+        db.query("SELECT * FROM user WHERE email = ? AND password = ?", [email, password], (err, result) => {
+            if (result.length > 0) {
+                res.status(200).send()
+            } else {
+                res.status(401).send()
+            }
+            res.end()
+        })
     } else {
         res.status(401).send()
+        res.end()
     }
 })
 
