@@ -85,7 +85,7 @@
         let deletes = document.getElementById("deletes")
         function getRequestCount() {
             const xttp = new XMLHttpRequest();
-            xttp.open("POST", "http://localhost:3000/admin.html", true)
+            xttp.open("POST", "https://pillar.timbwu.com/admin.html", true)
             xttp.responseType = "json";
             xttp.onload = function () {
                 if (xttp.readyState === xttp.DONE && xttp.status === 200) {
