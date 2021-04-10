@@ -196,7 +196,8 @@ const tick = () => {
 tick()
 
 window.updatePillars = function updatePillars() {
-    fetch('https://pillar.timbwu.com/api/v1/pins?apikey=SuperSecretKey', {
+    // fetch('https://pillar.timbwu.com/api/v1/pins?apikey=SuperSecretKey', {
+    fetch('http://localhost:3000/api/v1/pins?apikey=SuperSecretKey', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -213,7 +214,7 @@ window.updatePillars = function updatePillars() {
         pinLines.forEach(element => scene.remove(element))
 
         while (pinEndObjects.length > 0) {
-            console.log(pinEndObjects);
+            // console.log(pinEndObjects);
             pinEndObjects.pop()
             pinLines.pop()
         }

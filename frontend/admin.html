@@ -85,12 +85,12 @@
         let deletes = document.getElementById("deletes")
         function getRequestCount() {
             const xttp = new XMLHttpRequest();
-            xttp.open("POST", "https://pillar.timbwu.com/api/v1/admin?apikey=SuperSecretKey", true)
+            // xttp.open("POST", "https://pillar.timbwu.com/api/v1/admin?apikey=SuperSecretKey", true)
+            xttp.open("POST", "http://localhost:3000/api/v1/admin?apikey=SuperSecretKey", true)
             xttp.responseType = "json";
             xttp.onload = function () {
                 if (xttp.readyState === xttp.DONE && xttp.status === 200) {
                     let result = xttp.response
-                    console.log(result)
                     gets.innerText = result[0].gets
                     posts.innerText = result[0].posts
                     puts.innerText = result[0].puts
