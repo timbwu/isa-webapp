@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     user: 'root',
     port: '3306',
     password: '123456',
-    database: 'dongle'
+    database: 'local_isa'
 })
 
 db.connect(err => {
@@ -32,29 +32,32 @@ db.promise = (sql) => {
 const RequestLogger = (req, res, next) => {
     res.on("finish", () => {
         console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
-        switch (req.method) {
-            case 'GET':
-                db.query("UPDATE requests SET gets = gets + 1", (err, result) => {
-                    if (err) throw err;
-                })
-                break;
-            case 'POST':
-                db.query("UPDATE requests SET posts = posts + 1", (err, result) => {
-                    if (err) throw err;
-                })
-                break;
-            case 'PUT':
-                db.query("UPDATE requests SET puts = puts + 1", (err, result) => {
-                    if (err) throw err;
-                })
-                break;
-            case 'DELETE':
-                db.query("UPDATE requests SET deletes = deletes + 1", (err, result) => {
-                    if (err) throw err;
-                })
-                break;
-            default:
-                console.log("none")
+        // console.log((req.url.match(/\//g) || []).length)
+        if ((req.url.match(/\//g) || []).length == 1) {
+            switch (req.method) {
+                case 'GET':
+                    db.query("UPDATE requests SET gets = gets + 1", (err, result) => {
+                        if (err) throw err;
+                    })
+                    break;
+                case 'POST':
+                    db.query("UPDATE requests SET posts = posts + 1", (err, result) => {
+                        if (err) throw err;
+                    })
+                    break;
+                case 'PUT':
+                    db.query("UPDATE requests SET puts = puts + 1", (err, result) => {
+                        if (err) throw err;
+                    })
+                    break;
+                case 'DELETE':
+                    db.query("UPDATE requests SET deletes = deletes + 1", (err, result) => {
+                        if (err) throw err;
+                    })
+                    break;
+                default:
+                    console.log("none")
+            }
         }
     })
     next();
@@ -92,12 +95,6 @@ app.get("/gallery", (req, res) => {
 })
 
 app.get("/admin.html", (req, res) => {
-    // for lightsail
-    const sql1 = "CREATE TABLE IF NOT EXISTS pinContent (id int AUTO_INCREMENT PRIMARY KEY, content TEXT CHARSET utf8mb4) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
-    db.query(sql1, (err, result) => {
-        if (err) throw err;
-    })
-
     res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
