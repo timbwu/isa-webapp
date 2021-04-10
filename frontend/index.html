@@ -199,7 +199,7 @@
                 password: form.elements.password.value
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/login', {
+            fetch('https://pillar.timbwu.com/api/v1/login', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -207,7 +207,7 @@
                 }
             }).then(res => {
                 if (res.status === 200) {
-                    window.location.replace("/admin.html")
+                    window.location.replace("api/v1/admin?apikey=SuperSecretKey")
                 } else {
                     alert("Invalid email or password!")
                 }
@@ -224,7 +224,7 @@
                 pinContent: pinform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/newEmoji', {
+            fetch('https://pillar.timbwu.com/api/v1/newEmoji?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -232,10 +232,9 @@
                 }
             }).then(res => {
                 if (res.status === 200) {
-
                     return "ok";
                 } else {
-                    return "something went wrong";
+                    alert("Unauthorized! Bad api key!");
                 }
             })
             if (document.body.classList.contains('modal-active')) {

@@ -196,7 +196,7 @@ const tick = () => {
 tick()
 
 window.updatePillars = function updatePillars() {
-    fetch('https://pillar.timbwu.com/pins', {
+    fetch('https://pillar.timbwu.com/api/v1/pins?apikey=SuperSecretKey', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -206,7 +206,7 @@ window.updatePillars = function updatePillars() {
 
             return res.json();
         } else {
-            alert("Something went wrong")
+            alert("Unauthorized! Bad api key!")
         }
     }).then(function (data) {
         pinEndObjects.forEach(element => scene.remove(element))
