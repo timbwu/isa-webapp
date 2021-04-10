@@ -4,18 +4,18 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    port: '3306',
-    password: '123456',
-    database: 'local_isa'
-})
+// const db = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     port: '3306',
+//     password: '123456',
+//     database: 'local_isa'
+// })
 
-db.connect(err => {
-    if (err) throw err;
-    console.log("Connected to DB!");
-})
+// db.connect(err => {
+//     if (err) throw err;
+//     console.log("Connected to DB!");
+// })
 
 // Middleware
 const RequestLogger = (req, res, next) => {
