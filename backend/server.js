@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     user: 'root',
     port: '3306',
     password: '123456',
-    database: 'local_isa'
+    database: 'dongle'
 })
 
 db.connect(err => {
@@ -32,7 +32,6 @@ db.promise = (sql) => {
 const RequestLogger = (req, res, next) => {
     res.on("finish", () => {
         console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
-        // console.log((req.url.match(/\//g) || []).length)
         if ((req.url.match(/\//g) || []).length == 1) {
             switch (req.method) {
                 case 'GET':
@@ -137,8 +136,30 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'))
 })
 
+app.get('/pins', (req, res) => {
+    db.promise(`SELECT * FROM pin`)
+        .then((result) => {
+            console.log(JSON.stringify(result));
+            res.setHeader('Content-Type', 'application/json');
+            res.status(200).send(JSON.stringify(result));
+        }).catch((err) => {
+            console.log(err);
+        })
+})
+
 app.get("/documentation.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/documentation/index.html'))
+})
+
+app.post('/newEmoji', function (req, res) {
+    const lat = req.body.lat
+    const lon = req.body.lon
+    const contentType = req.body.contentType
+    const pinContent = req.body.pinContent
+    const sql = `INSERT INTO pin (type, content, lat, lon) VALUES (${contentType}, "${pinContent}", ${lat}, ${lon})`;
+    db.query(sql, (err, result) => {
+        if (err) throw err
+    })
 })
 
 app.listen(PORT, () => {

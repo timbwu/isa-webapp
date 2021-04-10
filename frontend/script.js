@@ -4,7 +4,6 @@ import * as dat from '/dat.gui/build/dat.gui.module.js'
 
 
 // THREE Setup
-const gui = new dat.GUI()
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
@@ -24,8 +23,12 @@ window.addEventListener('resize', () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+window.addEventListener('load', (event) => {
+    updatePillars()
+})
+
 // Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.6)
 // gui.add(ambientLight, 'intensity').min(0).max(1).step(0.001)
 scene.add(ambientLight)
 
@@ -39,7 +42,7 @@ directionalLight.position.set(3, 0, -2)
 scene.add(directionalLight)
 
 
-// 3D Helpers
+//3D Helpers
 // const axesHelper = new THREE.AxesHelper( 5 );
 // scene.add( axesHelper );
 
@@ -63,23 +66,45 @@ const earthNormalTexture = textureLoader.load('/frontend/textures/earth/Normal.p
 const circleParticle = textureLoader.load('/frontend/textures/particles/circle.png')
 const flareParticle = textureLoader.load('/frontend/textures/particles/flare.png')
 
+const emo1 = textureLoader.load('/frontend/textures/emojis/1.png')
+const emo2 = textureLoader.load('/frontend/textures/emojis/2.png')
+const emo3 = textureLoader.load('/frontend/textures/emojis/3.png')
+const emo4 = textureLoader.load('/frontend/textures/emojis/4.png')
+const heart = textureLoader.load('/frontend/textures/emojis/heart.png')
+
+let emojis = [];
+emojis.push(emo1)
+emojis.push(emo2)
+emojis.push(emo3)
+emojis.push(emo4);
+
+
+const fontLoader = new THREE.FontLoader()
+
+// GEO
+const earthGroup = new THREE.Group();
 
 // Earth and Cloud Geo
 const earthGeo = new THREE.SphereGeometry(1, 32, 32)
 const earthMaterial = new THREE.MeshStandardMaterial({ map: earthColorTexture, bumpMap: earthBumpTexture, bumpScale: 0.05 });
-const earthSphere = new THREE.Mesh(earthGeo, earthMaterial)
-scene.add(earthSphere)
+let earthSphere = new THREE.Mesh(earthGeo, earthMaterial)
+earthGroup.add(earthSphere)
+earthSphere.rotation.y = Math.PI 
 
 const wireGeo = new THREE.SphereGeometry(1.01, 32, 32)
 const wireMaterial = new THREE.MeshStandardMaterial({ wireframe: true, opacity: 0.15, emissiveIntensity: 5, transparent: true });
 const wireSphere = new THREE.Mesh(wireGeo, wireMaterial)
-scene.add(wireSphere)
+earthGroup.add(wireSphere)
 
 
 const cloudGeo = new THREE.SphereGeometry(1.025, 32, 32)
 const cloudMaterial = new THREE.MeshStandardMaterial({ alphaMap: earthCloudTexture, map: earthCloudTexture, transparent: true })
 const cloudSphere = new THREE.Mesh(cloudGeo, cloudMaterial)
-scene.add(cloudSphere)
+earthGroup.add(cloudSphere)
+
+scene.add(earthGroup)
+
+
 
 // Star Particles
 const particlesGeometry = new THREE.BufferGeometry()
@@ -132,13 +157,17 @@ directionalLight.castShadow = true
 earthSphere.receiveShadow = true
 cloudSphere.castShadow = true
 
+let pinEndObjects = [];
+let pinLines = [];
+
 // Update Loop
 const clock = new THREE.Clock()
 const tick = () => {
     const elapsedTime = clock.getElapsedTime()
 
     // Update controls
-    earthSphere.rotation.y = elapsedTime * -0.008
+    //earthSphere.rotation.y = elapsedTime * -0.008
+    particles.rotation.y = elapsedTime * -0.01
     wireSphere.rotation.y = elapsedTime * 0.01
     wireSphere.rotation.x = elapsedTime * 0.01
     cloudSphere.rotation.y = elapsedTime * 0.01
@@ -149,6 +178,10 @@ const tick = () => {
     directionalLight.position.x = Math.sin(elapsedTime * 0.2) * 3
     directionalLight.position.y = Math.sin(elapsedTime * 0.1) * 0.5
     directionalLight.position.z = Math.cos((elapsedTime * 0.2) + Math.PI) * 2
+
+    pinEndObjects.forEach(element => {
+        element.lookAt(camera.position);
+    })
 
     // Update controls
     controls.update()
@@ -161,3 +194,103 @@ const tick = () => {
 }
 
 tick()
+
+window.updatePillars = function updatePillars(){
+    fetch('http://localhost:3000/pins', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        if (res.status === 200) {
+            
+            return res.json();
+        } else {
+            alert("Something went wrong")
+        }
+    }).then(function(data){
+        pinEndObjects.forEach(element => scene.remove(element))
+        pinLines.forEach(element => scene.remove(element))
+
+        while(pinEndObjects.length > 0) {
+            console.log(pinEndObjects);
+            pinEndObjects.pop()
+            pinLines.pop()
+        }
+        data.forEach(element => createPillar(element.lat, element.lon, element.type, element.content));
+
+    });
+}
+
+function createPillar(lat, lon , type, content){
+    var latitude = Math.PI * lat / 180;
+    var longitude = Math.PI * lon / 180
+
+    latitude -= 1.570795765134 // Subtract 90 degrees in radians
+
+    const material = new THREE.LineBasicMaterial({
+        color: 0xffffff,
+    });
+    
+
+    const points = [];
+    points.push(new THREE.Vector3(
+        1.01 * Math.sin(latitude) * Math.cos(longitude),
+        1.01 * Math.cos(latitude),
+        1.01 * Math.sin(latitude) * Math.sin(longitude),  
+    ))
+    points.push(new THREE.Vector3(
+        1.2 * Math.sin(latitude) * Math.cos(longitude),
+        1.2 * Math.cos(latitude),
+        1.2 * Math.sin(latitude) * Math.sin(longitude),  
+    ))
+
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const line = new THREE.Line(lineGeo, material);
+    pinLines.push(line);
+    scene.add(line);
+
+    if (type == 0){
+        let emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        let geometry = new THREE.PlaneGeometry(0.05, 0.05)
+        const material = new THREE.MeshBasicMaterial({map: emoji, side: THREE.DoubleSide, transparent: true})
+        const planeMesh = new THREE.Mesh(geometry,material);
+        planeMesh.position.set(
+            1.21 * Math.sin(latitude) * Math.cos(longitude),
+            1.21 * Math.cos(latitude),
+            1.21 * Math.sin(latitude) * Math.sin(longitude),  
+        )
+        scene.add(planeMesh);
+        pinEndObjects.push(planeMesh);
+    } else if (type == 1){
+        let geometry = new THREE.PlaneGeometry(0.05, 0.05)
+        const material = new THREE.MeshBasicMaterial({map: heart, side: THREE.DoubleSide, transparent: true})
+        const planeMesh = new THREE.Mesh(geometry,material);
+        planeMesh.position.set(
+            1.21 * Math.sin(latitude) * Math.cos(longitude),
+            1.21 * Math.cos(latitude),
+            1.21 * Math.sin(latitude) * Math.sin(longitude),  
+        )
+        scene.add(planeMesh);
+        pinEndObjects.push(planeMesh);
+    } else {
+        fontLoader.load( '/frontend/fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+            const geometry = new THREE.TextGeometry(content, {
+                font: font,
+                size: 0.02,
+                height: 0.001,
+            } );
+            var textMat = new THREE.MeshBasicMaterial( { color: 0xffffff } )
+            var textMesh = new THREE.Mesh(geometry, textMat);
+    
+            textMesh.position.set(
+                1.21 * Math.sin(latitude) * Math.cos(longitude),
+                1.21 * Math.cos(latitude),
+                1.21 * Math.sin(latitude) * Math.sin(longitude),  
+            )
+            scene.add(textMesh)
+            pinEndObjects.push(textMesh);
+        });
+    } 
+}
