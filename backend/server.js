@@ -92,15 +92,9 @@ app.get("/gallery", (req, res) => {
 })
 
 app.get("/admin.html", (req, res) => {
-<<<<<<< HEAD
-    // for lightsail
-    const sql1 = "CREATE TABLE IF NOT EXISTS pinContent (id int AUTO_INCREMENT PRIMARY KEY, content TEXT CHARSET utf8mb4) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
-    db.query(sql1, (err, result) => {
-=======
     // Create pin table
     const sql = "CREATE TABLE IF NOT EXISTS pin (id int AUTO_INCREMENT PRIMARY KEY, type int, content TEXT CHARSET utf8mb4, lat float, lon float) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci";
     db.query(sql, (err, result) => {
->>>>>>> c5caa269cdafc33e297fc7a7e7dd6f41581081ff
         if (err) throw err;
     })
 
