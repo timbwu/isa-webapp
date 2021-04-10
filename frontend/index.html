@@ -414,7 +414,7 @@
                 pinContent: editform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/editPin', {
+            fetch('https://pillar.timbwu.com/api/v1/editPin', {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -444,7 +444,7 @@
             }
             console.log("HERE")
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/deletePin', {
+            fetch('https://pillar.timbwu.com/api/v1/deletePin', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
                 headers: {
@@ -465,7 +465,7 @@
         })
 
         function populateSelects(){
-            fetch('https://pillar.timbwu.com/pinIDs', {
+            fetch('https://pillar.timbwu.com/api/v1/pinIDs', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -490,7 +490,7 @@
             let data = {
                 id: $("#deleteSelect").find(":selected").val()
             }
-            fetch('https://pillar.timbwu.com/getPin', {
+            fetch('https://pillar.timbwu.com/api/v1/getPin', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -514,7 +514,7 @@
             let data = {
                 id: $("#editSelect").find(":selected").val()
             }
-            fetch('https://pillar.timbwu.com/getPin', {
+            fetch('https://pillar.timbwu.com/api/v1/getPin', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
