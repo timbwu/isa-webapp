@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
+const PORT = process.env.PORT || 3000;
+const app = express();
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -15,10 +17,15 @@ db.connect(err => {
     console.log("Connected to DB!");
 })
 
-const app = express();
+// Middleware
+const RequestLogger = (req, res, next) => {
+    console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
+    next();
+}
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(RequestLogger)
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use('/frontend/', express.static(path.join(__dirname, '../frontend')))
 app.use('/build/', express.static(path.join(__dirname, '../node_modules/three/build')))
 app.use('/jsm/', express.static(path.join(__dirname, '../node_modules/three/examples/jsm')))
@@ -55,7 +62,7 @@ app.get("/admin.html", (req, res) => {
     })
 
     // Create user table
-    const sql3 = "CREATE TABLE IF NOT EXISTS user (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255)";
+    const sql3 = "CREATE TABLE IF NOT EXISTS user (id int AUTO_INCREMENT PRIMARY KEY, email varchar(255), password varchar(255))";
     db.query(sql3, (err, result) => {
         if (err) throw err;
     })
@@ -65,14 +72,16 @@ app.get("/admin.html", (req, res) => {
     db.query(sql4, (err, result) => {
         if (err) throw err;
     })
+    console.log(req.body)
     res.sendFile(path.join(__dirname, '../frontend/admin.html'))
 })
 
 app.post("/login", (req, res) => {
     if (req.body.email === "test@test" && req.body.password === "123") {
-        res.status(200).send("User logged in!");
+        res.redirect("/admin.html")
+        res.status(200).send()
     } else {
-        res.status(401).send("Invalid email or password!");
+        res.status(401).send()
     }
 })
 
@@ -88,6 +97,6 @@ app.get("/documentation.html", (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/documentation/index.html'))
 })
 
-app.listen(3000, () => {
-    console.log("Server on port 3000");
+app.listen(PORT, () => {
+    console.log("Server on port " + PORT);
 })

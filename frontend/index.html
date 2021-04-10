@@ -21,7 +21,9 @@
                 <h1 class="align-middle text-5xl">pillarmen XOXO</h1>
             </span>
             <button id="adminBtn"
-                class="modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">Admin</button>
+                class="modal-open bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-2">
+                Admin
+            </button>
             <div
                 class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
                 <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
@@ -53,7 +55,7 @@
                         </div>
 
                         <!--Body-->
-                        <form action="/login" method="POST" id="loginForm">
+                        <form id="loginForm">
                             <label class="font-semibold text-sm text-gray-600 pb-1 block" for="email">Email</label>
                             <input id="email" type="email" name="email"
                                 class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
@@ -61,15 +63,15 @@
                                 for="password">Password</label>
                             <input id="password" type="password" name="password"
                                 class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-                            <button type="submit" id="modal-login" form="loginForm"
+                            <input type="submit" id="modal-login" name="submit"
                                 class="transition duration-200 bg-blue-500 hover:bg-blue-600 focus:bg-blue-700 focus:shadow-sm focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
-                                <span class="inline-block mr-2">Login</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor" class="w-4 h-4 inline-block">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
-                            </button>
+                            <!-- <span class="inline-block mr-2">Login</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" class="w-4 h-4 inline-block">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg> -->
+                            <!-- </button> -->
                         </form>
                     </div>
                 </div>
@@ -79,7 +81,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="module" src="/frontend/script.js"></script>
-    <script>
+    <script tpye="text/javascript">
         let openmodal = document.querySelectorAll('.modal-open')
         for (let i = 0; i < openmodal.length; i++) {
             openmodal[i].addEventListener('click', function (event) {
@@ -119,46 +121,30 @@
             $("#password").val("")
         }
 
-        const xhr = new XMLHttpRequest()
-        xhr.onreadystatechange = function (oEvent) {
-            if (xhr.readyState === 4) {
-                // Checking status codes
-                if (xhr.status === 200) {
-                    // user logged in
-                    window.location = '/index';
-                }
-                else {
-                    // login failed
-                    console.log(xhr.status);
-                    onError();
-                }
+        let form = document.getElementById("loginForm")
 
+        form.addEventListener('submit', (e) => {
+            let data = {
+                email: form.elements.email.value,
+                password: form.elements.password.value
             }
-        }
-        // xttp.onload = function () {
-        //     if (xttp.readyState === xttp.DONE && xttp.status === 200) {
-        //         window.location = "/admin";
-        //     } else {
-        //         console.log(xttp.status);
-        //     }
-        // }
-        // $("#modal-login").click(function () {
+            e.preventDefault()
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => {
+                if (res.status === 200) {
+                    console.log("Success!")
+                } else {
+                    alert("Invalid email or password!")
+                }
+                return res
+            })
+        })
 
-
-        // })
-
-        // function login() {
-        //     resource = "/login"
-        //     email = $("#email").val()
-        //     password = $("#password").val()
-        //     params = "email=" + email + "&password=" + password
-        //     endPoint = "localhost" + resource
-        //     console.log(email)
-        //     console.log(password)
-            // const xttp = new XMLHttpRequest()
-            // xttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            // xttp.send(params)
-        // }
     </script>
 </body>
 
