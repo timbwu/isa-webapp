@@ -355,26 +355,32 @@
         }
 
         let form = document.getElementById("loginForm")
-
         form.addEventListener('submit', (e) => {
             let data = {
                 email: form.elements.email.value,
                 password: form.elements.password.value
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/login', {
+            fetch('https://pillar.timbwu.com/api/v1/login?apikey=SuperSecretKey', {
+                // fetch('http://localhost:3000/api/v1/login?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            }).then(res => {
-                if (res.status === 200) {
-                    window.location.replace("api/v1/admin?apikey=SuperSecretKey")
-                } else {
-                    alert("Invalid email or password!")
-                }
-            })
+            }).then((res) => res.json())
+                .then((data) => {
+                    if (data.status == 200) {
+                        window.location.href = 'https://pillar.timbwu.com/api/v1/admin?apikey=SuperSecretKey'
+                    } else {
+                        alert(data.message)
+                    }
+                    console.log('Request Success: ', data)
+                })
+                .catch((error) => {
+                    console.log('Request Error: ', error)
+                })
+
         })
 
 
@@ -469,7 +475,7 @@
         })
 
         function populateSelects() {
-            fetch('https://pillar.timbwu.com/api/v1/pinIDs', {
+            fetch('https://pillar.timbwu.com/api/v1/pinIDs?apikey=SuperSecretKey', {
                 // fetch('http://localhost:3000/api/v1/pinIDs?apikey=SuperSecretKey', {
                 method: 'GET',
                 headers: {
@@ -496,7 +502,7 @@
             let data = {
                 id: $("#deleteSelect").find(":selected").val()
             }
-            fetch('https://pillar.timbwu.com/api/v1/getPin', {
+            fetch('https://pillar.timbwu.com/api/v1/getPin?apikey=SuperSecretKey', {
                 // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -521,7 +527,7 @@
             let data = {
                 id: $("#editSelect").find(":selected").val()
             }
-            fetch('https://pillar.timbwu.com/api/v1/getPin', {
+            fetch('https://pillar.timbwu.com/api/v1/getPin?apikey=SuperSecretKey', {
                 // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),

@@ -32,7 +32,7 @@ db.promise = (sql) => {
 // Middleware
 const RequestLogger = (req, res, next) => {
     res.on("finish", () => {
-        // console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
+        console.log(`Logged ${req.url} ${req.method} -- ${new Date()}`)
         if (req.url.includes(endPointRoot)) {
             switch (req.method) {
                 case 'GET':
@@ -102,24 +102,22 @@ app.post(endPointRoot + "/admin", (req, res) => {
 app.post(endPointRoot + "/login", async (req, res) => {
     let email = req.body.email
     let password = req.body.password
+    let apikey = req.query.apikey
     db.promise(`SELECT * FROM user WHERE email= '${email}'`)
         .then((result) => {
+            console.log(result)
             if (result.length == 0) {
-                res.status(401).send()
                 throw "Login failed, invalid email or password!"
             } else {
-                bcrypt.compare(password, result[0].password)
-                    .then((result) => {
-                        if (result) {
-                            res.status(200).send()
-                        } else {
-                            res.status(401).send()
-                        }
-                    })
+                const success = bcrypt.compareSync(password, result[0].password)
+                if (success) {
+                    res.send({ message: "SuperSecretKey", status: 200 })
+                } else {
+                    res.send({ message: "Login failed, invalid email or password!", status: 401 })
+                }
             }
         }).catch((err) => {
-            console.log(err);
-            res.status(401).send()
+            console.log(err)
         })
 })
 
@@ -223,26 +221,44 @@ app.delete(endPointRoot + '/deletePin', function (req, res) {
 });
 
 app.get(endPointRoot + '/pinIDs', function (req, res) {
-    db.promise(`SELECT id FROM pin`)
+    db.promise("SELECT * FROM apikey WHERE apikey1='" + req.query.apikey + "'")
         .then((result) => {
-            console.log(JSON.stringify(result));
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).send(JSON.stringify(result));
+            if (result.length > 0) {
+                db.promise(`SELECT id FROM pin`)
+                    .then((result) => {
+                        console.log(JSON.stringify(result));
+                        res.setHeader('Content-Type', 'application/json');
+                        res.status(200).send(JSON.stringify(result));
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+            } else {
+                throw '401 Wrong api key!'
+            }
         }).catch((err) => {
-            console.log(err);
+            console.log(err)
         })
 })
 
 app.post(endPointRoot + '/getPin', function (req, res) {
-    const id = req.body.id;
-    const sql = `SELECT * FROM pin WHERE id = ${id}`;
-    db.promise(sql)
+    db.promise("SELECT * FROM apikey WHERE apikey1='" + req.query.apikey + "'")
         .then((result) => {
-            console.log(JSON.stringify(result));
-            res.setHeader('Content-Type', 'application/json');
-            res.status(200).send(JSON.stringify(result));
+            if (result.length > 0) {
+                const id = req.body.id;
+                const sql = `SELECT * FROM pin WHERE id = ${id}`;
+                db.promise(sql)
+                    .then((result) => {
+                        console.log(JSON.stringify(result));
+                        res.setHeader('Content-Type', 'application/json');
+                        res.status(200).send(JSON.stringify(result));
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+            } else {
+                throw '401 Wrong api key!'
+            }
         }).catch((err) => {
-            console.log(err);
+            console.log(err)
         })
 })
 
