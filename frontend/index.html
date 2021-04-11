@@ -10,7 +10,7 @@
     crossorigin="anonymous" />
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="/frontend/css/style.css">
 
 
 <body>
@@ -157,15 +157,14 @@
                                     </path>
                                 </svg>
                             </div>
-                        </div>
+                        </div>               
 
                         <!--Body-->
                         <form id="editPinForm">
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()"
-                                required>
+                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()">
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -232,8 +231,7 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()"
-                                required>
+                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()">
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -267,7 +265,7 @@
         </button>
 
         <button id="editBtn"
-            class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
+        class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent mx-auto px-5 my-2 rounded-lg">
             Edit a Pin
         </button>
 
@@ -278,7 +276,7 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script type="module" src="./script.js"></script>
+    <script type="module" src="/frontend/script.js"></script>
     <script tpye="text/javascript">
         let modalToToggle = ""
         let openmodal = document.querySelectorAll('#adminBtn')
@@ -292,7 +290,7 @@
 
         let emojiBtn = document.querySelector("#addBtn")
         emojiBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')) {
+            if (document.body.classList.contains('modal-active')){
                 toggleModal()
             }
             event.preventDefault()
@@ -302,7 +300,7 @@
 
         let editBtn = document.querySelector("#editBtn")
         editBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')) {
+            if (document.body.classList.contains('modal-active')){
                 toggleModal()
             }
             event.preventDefault()
@@ -313,7 +311,7 @@
 
         let deleteBtn = document.querySelector("#deleteBtn")
         deleteBtn.addEventListener('click', function (event) {
-            if (document.body.classList.contains('modal-active')) {
+            if (document.body.classList.contains('modal-active')){
                 toggleModal()
             }
             event.preventDefault()
@@ -388,7 +386,6 @@
             }
             e.preventDefault()
             fetch('https://pillar.timbwu.com/api/v1/newPin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/newPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -417,8 +414,7 @@
                 pinContent: editform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/editPin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/editPin?apikey=SuperSecretKey', {
+            fetch('https://pillar.timbwu.com/api/v1/editPin', {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -446,9 +442,9 @@
                 lon: deleteform.elements.longitude.value,
                 pinContent: deleteform.elements.pinContent.value,
             }
+            console.log("HERE")
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/deletePin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/deletePin?apikey=SuperSecretKey', {
+            fetch('https://pillar.timbwu.com/api/v1/deletePin', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
                 headers: {
@@ -468,36 +464,37 @@
             }
         })
 
-        function populateSelects() {
+        function populateSelects(){
             fetch('https://pillar.timbwu.com/api/v1/pinIDs', {
-                // fetch('http://localhost:3000/api/v1/pinIDs?apikey=SuperSecretKey', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }).then(res => {
                 if (res.status === 200) {
-
+ 
                     return res.json();
                 } else {
                     return "something went wrong";
                 }
             }).then(function (data) {
                 document.querySelectorAll(".pinIDSelect").forEach(e2 => {
-                    e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
-                    data.forEach(e1 => {
+                        e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
+                });
+
+                data.forEach(e1 => {
+                    document.querySelectorAll(".pinIDSelect").forEach(e2 => {
                         e2.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
                     });
                 });
             });
         }
 
-        function selectOnChangeDelete() {
+        function selectOnChangeDelete(){
             let data = {
                 id: $("#deleteSelect").find(":selected").val()
             }
             fetch('https://pillar.timbwu.com/api/v1/getPin', {
-                // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -517,12 +514,11 @@
             });
         }
 
-        function selectOnChangeEdit() {
+        function selectOnChangeEdit(){
             let data = {
                 id: $("#editSelect").find(":selected").val()
             }
             fetch('https://pillar.timbwu.com/api/v1/getPin', {
-                // fetch('http://localhost:3000/api/v1/getPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -540,7 +536,7 @@
                 editform.elements.pinContent.value = data[0].content
             });
         }
-
+        
     </script>
 </body>
 
