@@ -164,8 +164,7 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()"
-                                required>
+                            <select id="editSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeEdit()">
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -232,8 +231,8 @@
                             <label for="pinID" class="font-semibold text-sm text-gray-600 pb-1 block">
                                 PinID
                             </label>
-                            <select id="deleteSelect" name="pinID" class="pinIDSelect" onchange="selectOnChangeDelete()"
-                                required>
+                            <select id="deleteSelect" name="pinID" class="pinIDSelect"
+                                onchange="selectOnChangeDelete()">
                                 <option value="" disabled selected>Select an Option</option>
                             </select>
                             <label class="font-semibold text-sm text-gray-600 pb-1 block"
@@ -394,7 +393,6 @@
             }
             e.preventDefault()
             fetch('https://pillar.timbwu.com/api/v1/newPin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/newPin?apikey=SuperSecretKey', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -423,8 +421,7 @@
                 pinContent: editform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/editPin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/editPin?apikey=SuperSecretKey', {
+            fetch('https://pillar.timbwu.com/api/v1/editPin', {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -452,9 +449,9 @@
                 lon: deleteform.elements.longitude.value,
                 pinContent: deleteform.elements.pinContent.value,
             }
+            console.log("HERE")
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/deletePin?apikey=SuperSecretKey', {
-                // fetch('http://localhost:3000/api/v1/deletePin?apikey=SuperSecretKey', {
+            fetch('https://pillar.timbwu.com/api/v1/deletePin', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
                 headers: {
@@ -491,7 +488,10 @@
             }).then(function (data) {
                 document.querySelectorAll(".pinIDSelect").forEach(e2 => {
                     e2.innerHTML = '<option value="" disabled selected>Select an Option</option>';
-                    data.forEach(e1 => {
+                });
+
+                data.forEach(e1 => {
+                    document.querySelectorAll(".pinIDSelect").forEach(e2 => {
                         e2.insertAdjacentHTML('beforeend', `<option value="${e1.id}">${e1.id}</option>`)
                     });
                 });
