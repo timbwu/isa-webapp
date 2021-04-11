@@ -421,7 +421,7 @@
                 pinContent: editform.elements.pinContent.value,
             }
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/editPin', {
+            fetch('https://pillar.timbwu.com/api/v1/editPin?apikey=SuperSecretKey', {
                 method: 'PUT',
                 body: JSON.stringify(data),
                 headers: {
@@ -451,7 +451,7 @@
             }
             console.log("HERE")
             e.preventDefault()
-            fetch('https://pillar.timbwu.com/api/v1/deletePin', {
+            fetch('https://pillar.timbwu.com/api/v1/deletePin?apikey=SuperSecretKey', {
                 method: 'DELETE',
                 body: JSON.stringify(data),
                 headers: {
