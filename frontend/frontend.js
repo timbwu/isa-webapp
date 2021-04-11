@@ -50,10 +50,10 @@ app.use((req, res, next) => {
 })
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/frontend/', express.static(path.join(__dirname, '../frontend')))
-app.use('/build/', express.static(path.join(__dirname, './node_modules/three/build')))
-app.use('/jsm/', express.static(path.join(__dirname, './node_modules/three/examples/jsm')))
-app.use('/dat.gui/', express.static(path.join(__dirname, './node_modules/dat.gui')))
+app.use('/frontend/', express.static(path.join(__dirname)))
+app.use('/build/', express.static(path.join(__dirname, '../node_modules/three/build')))
+app.use('/jsm/', express.static(path.join(__dirname, '../node_modules/three/examples/jsm')))
+app.use('/dat.gui/', express.static(path.join(__dirname, '../node_modules/dat.gui')))
 
 app.get(endPointRoot + "/admin", (req, res) => {
     db.promise("SELECT * FROM apikey WHERE apikey1='" + req.query.apikey + "'")
