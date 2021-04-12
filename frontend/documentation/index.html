@@ -1,192 +1,198 @@
 <!doctype html>
 <html>
-  <head>
-    <title>ISAProjectPostcards</title>
-    <style type="text/css">
-      body {
-	font-family: Trebuchet MS, sans-serif;
-	font-size: 15px;
-	color: #444;
-	margin-right: 24px;
-}
 
-h1	{
-	font-size: 25px;
-}
-h2	{
-	font-size: 20px;
-}
-h3	{
-	font-size: 16px;
-	font-weight: bold;
-}
-hr	{
-	height: 1px;
-	border: 0;
-	color: #ddd;
-	background-color: #ddd;
-}
+<head>
+  <title>ISAProjectPostcards</title>
+  <style type="text/css">
+    body {
+      font-family: Trebuchet MS, sans-serif;
+      font-size: 15px;
+      color: #444;
+      margin-right: 24px;
+    }
 
-.app-desc {
-  clear: both;
-  margin-left: 20px;
-}
-.param-name {
-  width: 100%;
-}
-.license-info {
-  margin-left: 20px;
-}
+    h1 {
+      font-size: 25px;
+    }
 
-.license-url {
-  margin-left: 20px;
-}
+    h2 {
+      font-size: 20px;
+    }
 
-.model {
-  margin: 0 0 0px 20px;
-}
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+    }
 
-.method {
-  margin-left: 20px;
-}
+    hr {
+      height: 1px;
+      border: 0;
+      color: #ddd;
+      background-color: #ddd;
+    }
 
-.method-notes	{
-	margin: 10px 0 20px 0;
-	font-size: 90%;
-	color: #555;
-}
+    .app-desc {
+      clear: both;
+      margin-left: 20px;
+    }
 
-pre {
-  padding: 10px;
-  margin-bottom: 2px;
-}
+    .param-name {
+      width: 100%;
+    }
 
-.http-method {
- text-transform: uppercase;
-}
+    .license-info {
+      margin-left: 20px;
+    }
 
-pre.get {
-  background-color: #0f6ab4;
-}
+    .license-url {
+      margin-left: 20px;
+    }
 
-pre.post {
-  background-color: #10a54a;
-}
+    .model {
+      margin: 0 0 0px 20px;
+    }
 
-pre.put {
-  background-color: #c5862b;
-}
+    .method {
+      margin-left: 20px;
+    }
 
-pre.delete {
-  background-color: #a41e22;
-}
+    .method-notes {
+      margin: 10px 0 20px 0;
+      font-size: 90%;
+      color: #555;
+    }
 
-.huge	{
-	color: #fff;
-}
+    pre {
+      padding: 10px;
+      margin-bottom: 2px;
+    }
 
-pre.example {
-  background-color: #f3f3f3;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
+    .http-method {
+      text-transform: uppercase;
+    }
 
-code {
-  white-space: pre;
-}
+    pre.get {
+      background-color: #0f6ab4;
+    }
 
-.nickname {
-  font-weight: bold;
-}
+    pre.post {
+      background-color: #10a54a;
+    }
 
-.method-path {
-  font-size: 1.5em;
-  background-color: #0f6ab4;
-}
+    pre.put {
+      background-color: #c5862b;
+    }
 
-.up {
-  float:right;
-}
+    pre.delete {
+      background-color: #a41e22;
+    }
 
-.parameter {
-  width: 500px;
-}
+    .huge {
+      color: #fff;
+    }
 
-.param {
-  width: 500px;
-  padding: 10px 0 0 20px;
-  font-weight: bold;
-}
+    pre.example {
+      background-color: #f3f3f3;
+      padding: 10px;
+      border: 1px solid #ddd;
+    }
 
-.param-desc {
-  width: 700px;
-  padding: 0 0 0 20px;
-  color: #777;
-}
+    code {
+      white-space: pre;
+    }
 
-.param-type {
-  font-style: italic;
-}
+    .nickname {
+      font-weight: bold;
+    }
 
-.param-enum-header {
-width: 700px;
-padding: 0 0 0 60px;
-color: #777;
-font-weight: bold;
-}
+    .method-path {
+      font-size: 1.5em;
+      background-color: #0f6ab4;
+    }
 
-.param-enum {
-width: 700px;
-padding: 0 0 0 80px;
-color: #777;
-font-style: italic;
-}
+    .up {
+      float: right;
+    }
 
-.field-label {
-  padding: 0;
-  margin: 0;
-  clear: both;
-}
+    .parameter {
+      width: 500px;
+    }
 
-.field-items	{
-	padding: 0 0 15px 0;
-	margin-bottom: 15px;
-}
+    .param {
+      width: 500px;
+      padding: 10px 0 0 20px;
+      font-weight: bold;
+    }
 
-.return-type {
-  clear: both;
-  padding-bottom: 10px;
-}
+    .param-desc {
+      width: 700px;
+      padding: 0 0 0 20px;
+      color: #777;
+    }
 
-.param-header {
-  font-weight: bold;
-}
+    .param-type {
+      font-style: italic;
+    }
 
-.method-tags {
-  text-align: right;
-}
+    .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+    }
 
-.method-tag {
-  background: none repeat scroll 0% 0% #24A600;
-  border-radius: 3px;
-  padding: 2px 10px;
-  margin: 2px;
-  color: #FFF;
-  display: inline-block;
-  text-decoration: none;
-}
+    .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+    }
 
-    </style>
-  </head>
-  <body>
+    .field-label {
+      padding: 0;
+      margin: 0;
+      clear: both;
+    }
+
+    .field-items {
+      padding: 0 0 15px 0;
+      margin-bottom: 15px;
+    }
+
+    .return-type {
+      clear: both;
+      padding-bottom: 10px;
+    }
+
+    .param-header {
+      font-weight: bold;
+    }
+
+    .method-tags {
+      text-align: right;
+    }
+
+    .method-tag {
+      background: none repeat scroll 0% 0% #24A600;
+      border-radius: 3px;
+      padding: 2px 10px;
+      margin: 2px;
+      color: #FFF;
+      display: inline-block;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
   <h1>ISAProjectPostcards</h1>
-    <div class="app-desc">Tim and Richard</div>
-    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
-    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
-    <div class="app-desc">Version: 1.0</div>
-    <div class="app-desc">BasePath:/fsafafdsa/ISAProject/1.0</div>
-    <div class="license-info">All rights reserved</div>
-    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <div class="app-desc">Tim and Richard</div>
+  <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+  <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+  <div class="app-desc">Version: 1.0</div>
+  <div class="app-desc">BasePath:/fsafafdsa/ISAProject/1.0</div>
+  <div class="license-info">All rights reserved</div>
+  <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
   <h2>Access</h2>
 
   <h2><a name="__Methods">Methods</a></h2>
@@ -196,21 +202,22 @@ font-style: italic;
   <div class="method-summary"></div>
   <h4><a href="#Default">Default</a></h4>
   <ul>
-  <li><a href="#deleteContentDelete"><code><span class="http-method">delete</span> /deleteContent</code></a></li>
-  <li><a href="#deletePinDelete"><code><span class="http-method">delete</span> /deletePin</code></a></li>
-  <li><a href="#editContentPut"><code><span class="http-method">put</span> /editContent</code></a></li>
-  <li><a href="#editLocationPut"><code><span class="http-method">put</span> /editLocation</code></a></li>
-  <li><a href="#newEmojiPost"><code><span class="http-method">post</span> /newEmoji</code></a></li>
-  <li><a href="#newHeartPost"><code><span class="http-method">post</span> /newHeart</code></a></li>
-  <li><a href="#newMessagePost"><code><span class="http-method">post</span> /newMessage</code></a></li>
-  <li><a href="#rootGet"><code><span class="http-method">get</span> /</code></a></li>
+    <li><a href="#deleteContentDelete"><code><span class="http-method">delete</span> /deleteContent</code></a></li>
+    <li><a href="#deletePinDelete"><code><span class="http-method">delete</span> /deletePin</code></a></li>
+    <li><a href="#editContentPut"><code><span class="http-method">put</span> /editContent</code></a></li>
+    <li><a href="#editLocationPut"><code><span class="http-method">put</span> /editLocation</code></a></li>
+    <li><a href="#newEmojiPost"><code><span class="http-method">post</span> /newEmoji</code></a></li>
+    <li><a href="#newHeartPost"><code><span class="http-method">post</span> /newHeart</code></a></li>
+    <li><a href="#newMessagePost"><code><span class="http-method">post</span> /newMessage</code></a></li>
+    <li><a href="#rootGet"><code><span class="http-method">get</span> /</code></a></li>
   </ul>
 
   <h1><a name="Default">Default</a></h1>
-  <div class="method"><a name="deleteContentDelete"/>
+  <div class="method"><a name="deleteContentDelete" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /deleteContent</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="delete"><code class="huge"><span class="http-method">delete</span> /deleteContent</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">deleteContentDelete</span>)</div>
     <div class="method-notes">Deletes the content of agiven pin, changes type to heart</div>
 
@@ -222,8 +229,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pinID (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The pinID of the pin to delete. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The pinID of the pin to delete.
+      </div>
+    </div> <!-- field-items -->
 
 
 
@@ -234,13 +242,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="deletePinDelete"/>
+  <hr />
+  <div class="method"><a name="deletePinDelete" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /deletePin</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="delete"><code class="huge"><span class="http-method">delete</span> /deletePin</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">deletePinDelete</span>)</div>
     <div class="method-notes">Deletes the given pin</div>
 
@@ -252,8 +261,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pinID (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The pinID of the pin to delete. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; The pinID of the pin to delete.
+      </div>
+    </div> <!-- field-items -->
 
 
 
@@ -264,13 +274,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="editContentPut"/>
+  <hr />
+  <div class="method"><a name="editContentPut" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /editContent</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="put"><code class="huge"><span class="http-method">put</span> /editContent</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">editContentPut</span>)</div>
     <div class="method-notes">Edits the content of a given pin</div>
 
@@ -282,8 +293,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pinInfo (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pinID to edit and a new content value. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pinID to edit
+        and a new content value. </div>
+    </div> <!-- field-items -->
 
 
 
@@ -294,13 +306,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="editLocationPut"/>
+  <hr />
+  <div class="method"><a name="editLocationPut" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="put"><code class="huge"><span class="http-method">put</span> /editLocation</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="put"><code class="huge"><span class="http-method">put</span> /editLocation</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">editLocationPut</span>)</div>
     <div class="method-notes">Edits the lat lon location of a given pin</div>
 
@@ -312,8 +325,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pinInfo (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pinID to edit and new lat lon values. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pinID to edit
+        and new lat lon values. </div>
+    </div> <!-- field-items -->
 
 
 
@@ -324,13 +338,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="newEmojiPost"/>
+  <hr />
+  <div class="method"><a name="newEmojiPost" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /newEmoji</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="post"><code class="huge"><span class="http-method">post</span> /newEmoji</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">newEmojiPost</span>)</div>
     <div class="method-notes">Creates a new pin of type emoji</div>
 
@@ -342,10 +357,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pin (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create. </div><div class="param">pinContent (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create.
+      </div>
+      <div class="param">pinContent (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON String of the pinContent for this pin. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON String of the pinContent for
+        this pin. </div>
+    </div> <!-- field-items -->
 
 
 
@@ -356,13 +374,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="newHeartPost"/>
+  <hr />
+  <div class="method"><a name="newHeartPost" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /newHeart</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="post"><code class="huge"><span class="http-method">post</span> /newHeart</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">newHeartPost</span>)</div>
     <div class="method-notes">Creates a generic pin of type heart</div>
 
@@ -374,8 +393,9 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pin (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create.
+      </div>
+    </div> <!-- field-items -->
 
 
 
@@ -386,13 +406,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="newMessagePost"/>
+  <hr />
+  <div class="method"><a name="newMessagePost" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="post"><code class="huge"><span class="http-method">post</span> /newMessage</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="post"><code class="huge"><span class="http-method">post</span> /newMessage</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">newMessagePost</span>)</div>
     <div class="method-notes">Creates a new pin of type message</div>
 
@@ -404,10 +425,13 @@ font-style: italic;
     <div class="field-items">
       <div class="param">pin (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create. </div><div class="param">pinContent (optional)</div>
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON string of the pin to create.
+      </div>
+      <div class="param">pinContent (optional)</div>
 
-      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON String of the pinContent for this pin. </div>
-    </div>  <!-- field-items -->
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; JSON String of the pinContent for
+        this pin. </div>
+    </div> <!-- field-items -->
 
 
 
@@ -418,13 +442,14 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
-  <div class="method"><a name="rootGet"/>
+  <hr />
+  <div class="method"><a name="rootGet" />
     <div class="method-path">
-    <a class="up" href="#__Methods">Up</a>
-    <pre class="get"><code class="huge"><span class="http-method">get</span> /</code></pre></div>
+      <a class="up" href="#__Methods">Up</a>
+      <pre class="get"><code class="huge"><span class="http-method">get</span> /</code></pre>
+    </div>
     <div class="method-summary"> (<span class="nickname">rootGet</span>)</div>
     <div class="method-notes">Returns home page and all globe pins</div>
 
@@ -442,9 +467,9 @@ font-style: italic;
     <h3 class="field-label">Responses</h3>
     <h4 class="field-label">200</h4>
     Successful Response
-        <a href="#"></a>
+    <a href="#"></a>
   </div> <!-- method -->
-  <hr/>
+  <hr />
 
   <h2><a name="__Models">Models</a></h2>
   [ Jump to <a href="#__Methods">Methods</a> ]
@@ -459,20 +484,34 @@ font-style: italic;
     <h3><a name="pin"><code>pin</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> the dbID of this pin. </div>
-<div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> the type of pin this pin represents. </div>
-<div class="param">contentID (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  </div>
-<div class="param">lat (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> the latitude of the pin format: float</div>
-<div class="param">lon (optional)</div><div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> the longitude of the pin format: float</div>
-    </div>  <!-- field-items -->
+      <div class="param">id (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> the dbID of this pin.
+      </div>
+      <div class="param">type (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#string">String</a></span> the type of pin this pin
+        represents. </div>
+      <div class="param">contentID (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> </div>
+      <div class="param">lat (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> the latitude of the pin format:
+        float</div>
+      <div class="param">lon (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#float">Float</a></span> the longitude of the pin
+        format: float</div>
+    </div> <!-- field-items -->
   </div>
   <div class="model">
     <h3><a name="pinContent"><code>pinContent</code> - </a> <a class="up" href="#__Models">Up</a></h3>
     <div class='model-description'></div>
     <div class="field-items">
-      <div class="param">id (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> the dbID of this message </div>
-<div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> the content of the message of this pin </div>
-    </div>  <!-- field-items -->
+      <div class="param">id (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> the dbID of this message
+      </div>
+      <div class="param">content (optional)</div>
+      <div class="param-desc"><span class="param-type"><a href="#string">String</a></span> the content of the message of
+        this pin </div>
+    </div> <!-- field-items -->
   </div>
-  </body>
+</body>
+
 </html>
